@@ -2,13 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>My Static Site</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage with Tailwind</title>
+    <!-- Tailwind CSS (your generated output.css) -->
+  <link href="output.css" rel="stylesheet" />
+  <!-- Anime.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <link href="output.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-black relative">
 
-  <h1>Static HTML/CSS/JS Project</h1>
+  <!-- Navigation Menu -->
+  <nav class="absolute w-full z-20">
+    <div class="mx-auto px-4 py-6 flex justify-center">
+      <ul class="flex space-x-8 text-white text-lg">
+        <li><a href="#" class="hover:text-gray-300 hover:underline">home</a></li>
+        <li><a href="#" class="hover:text-gray-300 hover:underline">portfolio</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  <script src="script.js"></script>
+  <!-- Hero Section with Full-Width Background -->
+  <section class="relative h-screen w-full">
+    <!-- Background Image with a dark overlay effect -->
+    <div class="absolute inset-0 bg-cover bg-center" 
+         style="background-image: url('./img/im3.gif'); filter: brightness(0.2);">
+    </div>
+    <!-- Centered Content -->
+    <div class="absolute inset-0 flex flex-col items-center justify-center ">
+      <h1 id="typewriter" class="text-7xl font-bold text-white tracking-wider">el·e·ment</h1>
+        <script>
+    const text = "el·e·ment";
+    const typeEl = document.getElementById("typewriter");
+
+    // Function to simulate typing letters one by one
+    function typeWriter() {
+      return anime({
+        targets: { count: 0 },
+        count: text.length,
+        round: 1,
+        duration: 2000,
+        easing: "linear",
+        update: function(anim) {
+          const current = anim.animations[0].currentValue;
+          // Show letters up to "current" index plus an underscore
+          typeEl.innerHTML = text.substring(0, current) + "_";
+        }
+      }).finished;
+    }
+
+    // Function to simulate erasing one letter at a time
+    function eraseWriter() {
+      return anime({
+        targets: { count: text.length },
+        count: 0,
+        round: 1,
+        duration: 800,
+        easing: "linear",
+        update: function(anim) {
+          const current = anim.animations[0].currentValue;
+          typeEl.innerHTML = text.substring(0, current) + "_";
+        }
+      }).finished;
+    }
+
+    // Loop the typing effect indefinitely using async/await for easy chaining
+    async function loopTypewriter() {
+      while (true) {
+        await typeWriter();
+        // Pause with the word fully typed (underscore stays visible)
+        await anime({ duration: 31000 }).finished;
+        await eraseWriter();
+        // Pause briefly before retyping
+        await anime({ duration: 500 }).finished;
+      }
+    }
+    
+    loopTypewriter();
+  </script>
+      <p id="delayed-text" class="opacity-0 transition-opacity duration-700 text-white text-4xl justify-center px-48 py-4 font-light"><i>a part or aspect of something abstract, especially one that is essential or characteristic.
+</i></p>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      document.getElementById("delayed-text").classList.remove("opacity-0");
+      document.getElementById("delayed-text").classList.add("opacity-100");
+    }, 2300); // 1000ms = 1 second
+  });
+</script>
+
+       
+    </div>
+    
+  </section>
+  
+
 </body>
 </html>
